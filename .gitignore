@@ -7,6 +7,9 @@ build/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
+# Local configuration file (sdk path, etc)
+local.properties
+
 # Gradle files
 .gradle/
 
@@ -15,9 +18,6 @@ build/
 
 # User-specific configurations
 *.iml
-
-# Local configuration file (sdk path, etc)
-local.properties
 
 # Log Files
 *.log
@@ -38,3 +38,19 @@ google-services.json
 
 # Version control
 vcs.xml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+lint/reports/
