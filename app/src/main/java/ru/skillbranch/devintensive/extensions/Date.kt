@@ -17,7 +17,7 @@ fun Date.format(pattern: String="HH:mm:ss dd.MM.yy"): String {
 fun Date.add(value: Int, units: TimeUnits): Date {
     var time = this.time
 
-    time +=when (units) {
+    time += when (units) {
         TimeUnits.SECOND -> value * SECOND
         TimeUnits.MINUTE -> value * MINUTE
         TimeUnits.HOUR -> value * HOUR
@@ -29,9 +29,22 @@ fun Date.add(value: Int, units: TimeUnits): Date {
 }
 
 fun Date.humanizeDiff(date: Date = Date()): String {
-    //TODO
+
+    val currentDate = Date()
+
+    if ( date.after(currentDate) ) {
+        //date.
+    }
+
+    if ( date.before(currentDate) ) {
+
+    }
     return ""
 }
+
+
+
+
 
 
 enum class TimeUnits{

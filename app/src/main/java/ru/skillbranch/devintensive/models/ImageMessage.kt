@@ -6,7 +6,7 @@ import java.util.*
 class ImageMessage (
     id: String,
     from: User?,
-    chat: Chart,
+    chat: Chat,
     isIncoming: Boolean = false,
     date: Date = Date(),
     var image: String?
