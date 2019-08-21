@@ -11,7 +11,7 @@ data class User(
     var avatar: String?,
     var rating: Int = 0,
     var respect: Int = 0,
-    val lastVisit: Date? = null,
+    val lastVisit: Date? = Date(),
     val isOnline: Boolean = false
 ) {
 
@@ -56,14 +56,14 @@ data class User(
     }
 
     class Builder {
-        protected var id: String = ""
-        protected var firstName: String? = "John"
-        protected var lastName: String? = "Doe"
-        protected var avatar: String? = null
-        protected var rating: Int = 0
-        protected var respect: Int = 0
-        protected var lastVisit: Date? = null
-        protected var isOnline: Boolean = false
+        private var id: String = ""
+        private var firstName: String? = "John"
+        private var lastName: String? = "Doe"
+        private var avatar: String? = null
+        private var rating: Int = 0
+        private var respect: Int = 0
+        private var lastVisit: Date? = null
+        private var isOnline: Boolean = false
 
         fun id(value: String) = apply { id = value }
 
@@ -81,7 +81,8 @@ data class User(
 
         fun isOnline(value: Boolean) = apply { isOnline = value }
 
-        fun build() : User {
+        fun build() : User? {
+            if (id.isEmpty()) return null
             return User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
         }
     }

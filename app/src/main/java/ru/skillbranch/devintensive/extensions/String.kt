@@ -10,13 +10,6 @@ fun String.truncate(count: Int = 16) : String {
 }
 
 fun String.stripHtml(): String {
-    return this.substringBefore("</p>")
-            .substringAfterLast(">")
-            .replace("&", "")
-            .replace("<", "")
-            .replace(">", "")
-            .replace("\'", "")
-            .replace("\"", "")
-            .split(" ")
-            .filter { !it.isEmpty() }.joinToString(" ")
+    val newString = "<[^<>]+>".toRegex().replace(this, "")
+    return "\\s{2,}".toRegex().replace(newString, " ")
 }
