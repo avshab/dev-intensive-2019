@@ -40,6 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:lines="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/color_gray_light"
                     android:textColorHint="@color/color_gray_light"
                     android:hint="Введите текст"
