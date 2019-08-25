@@ -71,4 +71,27 @@ object Utils {
         "я" to "ya", "Я" to "Ya"
     )
 
+    fun checkGit(path:String) : Boolean{
+        val ignore:List<String> = listOf("enterprise", "features", "topics" , "collections", "trending," +
+                "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
+
+        var strCatName = path
+        if (strCatName.isEmpty())
+            return true
+        if (!strCatName.contains("github.com"))
+            return false
+        if (strCatName.contains("https://") && strCatName.substringBefore("https://").isNotEmpty())
+            return false
+        strCatName = strCatName.substringAfter("https://")
+        if (strCatName.contains("www.") && strCatName.substringBefore("www.").isNotEmpty())
+            return false
+        strCatName = strCatName.substringAfter("www.")
+        if (strCatName.substringBefore("github.com/").isNotEmpty())
+            return false
+        strCatName = strCatName.substringAfter("github.com/")
+        if (strCatName.isNotEmpty() && !strCatName.contains("/") && !ignore.contains(strCatName)) {
+            return true
+        }
+        return false
+    }
 }
