@@ -1,29 +1,28 @@
 package ru.skillbranch.devintensive.ui.profile
 
+
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
-import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
-import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
-
 class ProfileActivity : AppCompatActivity() {
-
-    companion object{
+    companion object {
         const val IS_EDIT_MODE = "IS_EDIT_MODE"
     }
 
@@ -31,20 +30,20 @@ class ProfileActivity : AppCompatActivity() {
     var isEditMode = false
     lateinit var viewFields : Map<String, TextView>
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModels()
-        Log.d("M_MainActivity", "onCreate")
+        Log.d("M_ProfileActivity", "onCreate")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_EDIT_MODE, false)
+        outState.putBoolean(IS_EDIT_MODE, isEditMode)
     }
-
 
     private fun initViewModels(){
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
@@ -72,11 +71,12 @@ class ProfileActivity : AppCompatActivity() {
         setAvatar(profile)
     }
 
-    fun setAvatar(profile: Profile) {
+    fun setAvatar(profile: Profile){
         val initials = profile.initials?.trim() ?: ""
         if (initials.isBlank()) {
             iv_avatar.setImageResource(R.drawable.avatar_default)
-        } else {
+        }
+        else {
             val color = TypedValue()
             theme.resolveAttribute(R.attr.colorAccent, color, true)
 
@@ -90,7 +90,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
-        isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
         viewFields = mapOf(
             "nickName" to tv_nick_name,
             "rank" to tv_rank,
@@ -115,40 +114,15 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnKeyListener{
-                v, keyCode, event ->
-            if(event.getAction() == KeyEvent.ACTION_DOWN &&
-                (keyCode == KeyEvent.KEYCODE_ENTER))
-            {
-                val ignore:List<String> = listOf("enterprise", "features", "topics" , "collections", "trending," +
-                        "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
-
-                var res = false
-                var strCatName = et_repository.text.toString()
-                if (strCatName.isEmpty())
-                    true
-                if (!strCatName.contains("github.com"))
-                    res = false
-                if (strCatName.substringBefore("https://").isNotEmpty())
-                    res = false
-                strCatName = strCatName.substringAfter("https://")
-                if (strCatName.substringBefore("www.").isNotEmpty())
-                    res = false
-                strCatName = strCatName.substringAfter("www.")
-                if (strCatName.substringBefore("github.com/").isNotEmpty())
-                    res = false
-                strCatName = strCatName.substringAfter("github.com/")
-                if (!res && !strCatName.contains("/") && !ignore.contains(strCatName)) {
-                    true
-                }
-                else{
-                    wr_repository.error = "Невалидный адрес репозитория"
-                    et_repository.text = null
-                    false
-                }
+        et_repository.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.onRepositoryTextChanged(s.toString())
             }
-            false
-        }
+        })
+
+        iv_avatar.setImageResource(R.drawable.avatar_default)
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -183,7 +157,6 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
     private fun saveProfileInfo(){
         Profile(
             firstName = et_first_name.text.toString(),
@@ -193,9 +166,5 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
         }
-
-        val initials = Utils.toInitials(et_first_name.text.toString(), et_last_name.text.toString())
-       // iv_avatar.setDisplayText(initials ?: "")
     }
-
 }

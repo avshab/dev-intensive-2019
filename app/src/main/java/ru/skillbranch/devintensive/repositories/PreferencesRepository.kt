@@ -1,7 +1,6 @@
 package ru.skillbranch.devintensive.repositories
 
 
-import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatDelegate
@@ -24,8 +23,8 @@ object PreferencesRepository {
         PreferenceManager.getDefaultSharedPreferences(ctx)
     }
 
-    fun saveAppTheme(theme: Int) {
-        putValue(APP_THEME to theme)
+    fun saveAppTheme(value: Int) {
+        putValue(APP_THEME to value)
     }
 
     fun getAppTheme() : Int = prefs.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_NO)
