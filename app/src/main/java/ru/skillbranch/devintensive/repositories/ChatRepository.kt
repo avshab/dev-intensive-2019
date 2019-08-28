@@ -1,10 +1,29 @@
 package ru.skillbranch.devintensive.repositories
 
-import ru.skillbranch.devintensive.models.Chat
+import androidx.lifecycle.MutableLiveData
+import ru.skillbranch.devintensive.data.managers.CacheManager
+import ru.skillbranch.devintensive.models.data.Chat
+import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.utils.DataGenerator
 
 object ChatRepository {
-    fun loadChats(): List<Chat> {
-        return DataGenerator.generateChats(10)
+    private val chats = CacheManager.loadChats()
+
+    fun loadChats(): MutableLiveData<List<Chat>> {
+        return chats
+    }
+
+    fun update(chat: Chat) {
+        val copy = chats.value!!.toMutableList()
+        val ind = chats.value!!.indexOfFirst { it.id == chat.id }
+        if(ind == -1) return
+        copy[ind] = chat
+        chats.value = copy
+    }
+
+
+    fun find(chatId: String): Chat? {
+        val ind = chats.value!!.indexOfFirst { it.id == chatId }
+        return chats.value!!.getOrNull(ind)
     }
 }
