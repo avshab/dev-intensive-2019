@@ -4,7 +4,7 @@
         android:layout_height="@dimen/item_size"
         xmlns:tools="http://schemas.android.com/tools"
         android:padding="@dimen/spacing_normal_16"
-        android:background="@android:color/white">
+        android:background="@color/color_rv_bg">
 
     <ImageView
             android:id="@+id/iv_selected"

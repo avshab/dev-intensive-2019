@@ -1,8 +1,12 @@
 package ru.skillbranch.devintensive.models.data
 
 import androidx.annotation.VisibleForTesting
+import ru.skillbranch.devintensive.extensions.TimeUnits
+import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.extensions.shortFormat
 import ru.skillbranch.devintensive.models.BaseMessage
+import ru.skillbranch.devintensive.models.ImageMessage
+import ru.skillbranch.devintensive.models.TextMessage
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
@@ -15,26 +19,45 @@ data class Chat(
 ) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun unreadableMessageCount(): Int {
-        //TODO implement me
-        return 2
+        return messages.filter { !it.isReaded }.size
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageDate(): Date? {
-        //TODO implement me
-        return Date()
+        if (messages.isNullOrEmpty()){
+            return null
+        }
+        return messages.last().date
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageShort(): Pair<String, String?> = when(val lastMessage = messages.lastOrNull()){
-        //TODO implement me
+        lastMessage as? ImageMessage -> "user.firstName - отправил фото" to lastMessage?.from?.firstName.toString()
+        lastMessage as? TextMessage -> getLastMessage() to lastMessage?.from?.firstName.toString()
         else -> "Сообщений еще нет" to "@John_Doe"
+    }
+
+    private fun getLastMessage(): String {
+         return  (messages.last() as TextMessage).text ?: ""
     }
 
     private fun isSingle(): Boolean = members.size == 1
 
     fun toChatItem(): ChatItem {
-        return if (isSingle()) {
+        return if(isArchived) {
+            ChatItem(
+                id,
+                null,
+                "",
+                title,
+                lastMessageShort().first,
+                unreadableMessageCount(),
+                lastMessageDate()?.shortFormat(),
+                false,
+                ChatType.ARCHIVE,
+                lastMessageShort().second
+            )
+        } else if (isSingle()) {
             val user = members.first()
             ChatItem(
                 id,

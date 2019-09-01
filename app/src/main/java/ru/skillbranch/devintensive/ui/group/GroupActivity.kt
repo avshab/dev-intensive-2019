@@ -57,6 +57,7 @@ class GroupActivity : AppCompatActivity() {
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
+        toolbar.title = "Создание группы"
     }
 
     private fun initViews() {
@@ -97,6 +98,7 @@ class GroupActivity : AppCompatActivity() {
             tag = user.id
             isCheckable = true
             closeIconTint = ColorStateList.valueOf(Color.WHITE)
+            isCloseIconVisible = true
             chipBackgroundColor = ColorStateList.valueOf(getColor(R.color.color_primary_light))
             setTextColor(Color.WHITE)
         }

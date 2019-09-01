@@ -55,7 +55,6 @@ class GroupViewModel : ViewModel() {
 
     fun handleSearchQuery(text: String?) {
         query.value = text
-
     }
 
     fun handleCreateGroup() {

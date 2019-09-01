@@ -1,29 +1,21 @@
 package ru.skillbranch.devintensive.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.repositories.ChatRepository
-import ru.skillbranch.devintensive.utils.DataGenerator
 
-class MainViewModel : ViewModel() {
+class ArchiveViewModel : ViewModel() {
     private val query = mutableLiveData("")
     private val chatRepository = ChatRepository
-    private val chats = Transformations.map(chatRepository.loadChats()){chats->
+    private val chats = Transformations.map(chatRepository.loadChats()){ chats->
 
-        val item = chats.filter{ it.isArchived }.lastOrNull()?.toChatItem()
-        val list =  chats.filter{ !it.isArchived }
+        return@map  chats.filter{ it.isArchived }
             .map{ it.toChatItem() }
             .sortedBy { it.id.toInt() }
-
-        var returnList: MutableList<ChatItem> = mutableListOf()
-        if(item != null) {
-            returnList.add(item)
-        }
-        returnList.addAll( list )
-
-        return@map returnList// as List<ChatItem>
     }
 
     fun getChatData() : LiveData<List<ChatItem>> {

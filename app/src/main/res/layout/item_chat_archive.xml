@@ -5,50 +5,56 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:padding="@dimen/spacing_normal_16"
         android:background="@color/color_rv_bg">
-    
+
     <ru.skillbranch.devintensive.ui.custom.AvatarImageView
             android:id="@+id/iv_avatar_single"
             android:layout_width="@dimen/avatar_item_size"
             android:layout_height="@dimen/avatar_item_size"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_avatar"/>
-
-    <View
-            android:id="@+id/sv_indicator"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            tools:background="@drawable/bg_indicator"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/tv_title_single"/>
+            android:background="@drawable/bg_archive_item"
+            android:src="@drawable/ic_archive_black_24dp"
+            android:padding="@dimen/spacing_small_8"/>
 
     <TextView
-            android:id="@+id/tv_title_single"
+            android:id="@+id/tv_title_archive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="chat title"
+            android:text="@string/title_archive_chats"
+            tools:text="@string/title_archive_chats"
             tools:textColor="@color/color_primary"
             android:fontFamily="sans-serif-medium"
             android:textSize="14sp"
             android:layout_toRightOf="@id/iv_avatar_single"
-            android:layout_toLeftOf="@id/tv_date_single"
+            android:layout_toLeftOf="@id/tv_date_archive"
             android:layout_marginLeft="@dimen/spacing_normal_16"
             android:layout_marginRight="@dimen/spacing_normal_16"/>
 
     <TextView
-            android:id="@+id/tv_message_single"
+            android:id="@+id/tv_message_author_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="John Doe"
+            tools:textColor="@color/color_gray_dark"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/iv_avatar_single"
+            android:layout_marginLeft="@dimen/spacing_normal_16"
+            android:layout_below="@id/tv_title_archive"/>
+
+    <TextView
+            android:id="@+id/tv_message_archive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Когда я проходил интенсив, я мало спал"
             tools:textColor="@color/color_gray_dark"
             android:textSize="14sp"
-            android:layout_toRightOf="@id/iv_avatar_single"
-            android:layout_toLeftOf="@id/tv_counter_single"
+            android:layout_toRightOf="@id/tv_message_author_archive"
+            android:layout_toLeftOf="@id/tv_counter_archive"
             android:layout_marginLeft="@dimen/spacing_normal_16"
             android:layout_marginRight="@dimen/spacing_normal_16"
-            android:layout_below="@id/tv_title_single"/>
+            android:layout_below="@id/tv_title_archive"/>
 
     <TextView
-            android:id="@+id/tv_date_single"
+            android:id="@+id/tv_date_archive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
@@ -58,7 +64,7 @@
             tools:text="18:00"/>
 
     <TextView
-            android:id="@+id/tv_counter_single"
+            android:id="@+id/tv_counter_archive"
             android:layout_width="wrap_content"
             android:minWidth="@dimen/counter_size"
             android:layout_height="@dimen/counter_size"

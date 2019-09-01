@@ -3,16 +3,21 @@ package ru.skillbranch.devintensive.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
+import ru.skillbranch.devintensive.ui.archive.ArchiveActivity
 import ru.skillbranch.devintensive.ui.group.GroupActivity
 import ru.skillbranch.devintensive.viewmodels.MainViewModel
 
@@ -36,13 +41,32 @@ class MainActivity: AppCompatActivity() {
 
     private fun initViews() {
         chatAdapter = ChatAdapter{
-            Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            if(it.chatType == ChatType.ARCHIVE) {
+                val intent = Intent(this, ArchiveActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter) {
-            viewModel.addToArchive(it.id)
-            Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG).show()
+
+            if(it.chatType != ChatType.ARCHIVE) {
+
+                val id = it.id
+                viewModel.addToArchive(it.id)
+
+                val snackbar = Snackbar.make(
+                    rv_chat_list,
+                    "Вы точно хотите добавить ${it.title} в архив?",
+                    Snackbar.LENGTH_LONG
+                )
+                snackbar.view.setBackgroundColor(resources.getColor(R.color.color_snack_bar, theme))
+                snackbar.setAction("Отмена", {
+                    viewModel.restoreFromArhive(id)
+                    snackbar.dismiss()
+                })
+                snackbar.show()
+            }
         }
 
         val touchHelper = ItemTouchHelper(touchCallback)
@@ -75,4 +99,25 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Введите имя пользователя"
+        searchView.setOnQueryTextListener((object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.handleSearchQuery(query)
+                return true
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewModel.handleSearchQuery(query)
+                return true
+            }
+
+        }))
+
+        return super.onCreateOptionsMenu(menu)
+    }
 }

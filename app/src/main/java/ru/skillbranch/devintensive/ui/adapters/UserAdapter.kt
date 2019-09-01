@@ -15,7 +15,7 @@ import javax.microedition.khronos.opengles.GL
 
 class UserAdapter (val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    private var items: List<UserItem> = listOf()
+    var items: List<UserItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val inflater = LayoutInflater.from(parent.context)

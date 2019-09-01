@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 
-class ChatItemTouchHelperCallback(
-    val adapter: ChatAdapter,
+class ArchiveTouchHelperCallback(
+    val adapter: ArchiveAdapter,
     val swipeListener: (ChatItem)->Unit
-    ): ItemTouchHelper.Callback() {
+): ItemTouchHelper.Callback() {
 
     private val bgRect = RectF()
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -37,15 +37,12 @@ class ChatItemTouchHelperCallback(
     ): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
         swipeListener.invoke(adapter.items[viewHolder.adapterPosition])
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-
-
         if(actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder is ItemTouchViewHolder) {
-                viewHolder.onItemSelected()
+            viewHolder.onItemSelected()
         }
         super.onSelectedChanged(viewHolder, actionState)
     }
@@ -102,9 +99,4 @@ class ChatItemTouchHelperCallback(
 
         canvas.drawRect(bgRect, bgPaint)
     }
-}
-
-interface ItemTouchViewHolder{
-    fun onItemSelected()
-    fun onItemCleared()
 }

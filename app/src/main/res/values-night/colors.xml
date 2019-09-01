@@ -15,7 +15,7 @@
     <color name="color_indicator">#581F99</color>
     <color name="color_green">#4FD149</color>
 
-    <color name="color_rv_bg">#ECECEC</color>
-    <color name="color_snack_bar">#1C0E42</color>
-    <color name="color_archive_icon">#9CA9BA</color>
+    <color name="color_rv_bg">#1D1D1D</color>
+    <color name="color_snack_bar">#ECECEC</color>
+    <color name="color_archive_icon">#675F7F</color>
 </resources>
