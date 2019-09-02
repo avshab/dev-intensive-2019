@@ -79,11 +79,11 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
 
     inner class SingleViewHolder(convertView: View) : ChatItemViewHolder(convertView), LayoutContainer, ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            //itemView.setBackgroundColor(Color.LTGRAY)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            //itemView.setBackgroundColor(Color.WHITE)
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit) {
@@ -122,11 +122,11 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
 
     inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView), LayoutContainer, ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            //itemView.setBackgroundColor(Color.LTGRAY)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+           //itemView.setBackgroundColor(Color.WHITE)
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit) {
@@ -161,16 +161,18 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
     }
 
 
-    inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView), LayoutContainer, ItemTouchViewHolder {
+    inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView), LayoutContainer,  ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit) {
+
+            
 
             with(tv_date_archive) {
                 visibility = if(item.messageCount>0) View.VISIBLE else View.GONE

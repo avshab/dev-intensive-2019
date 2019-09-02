@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_profile_constraint.view.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
@@ -65,6 +67,8 @@ class MainActivity: AppCompatActivity() {
                     viewModel.restoreFromArhive(id)
                     snackbar.dismiss()
                 })
+                val textView: TextView = snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text)
+                textView.setTextColor(resources.getColor(R.color.color_snackbar_text, theme))
                 snackbar.show()
             }
         }

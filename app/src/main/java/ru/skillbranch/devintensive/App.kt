@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import ru.skillbranch.devintensive.repositories.PreferencesRepository
 
 class App : Application() {
@@ -23,7 +24,8 @@ class App : Application() {
         super.onCreate()
 
         PreferencesRepository.getAppTheme().also {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES) //setDefaultNightMode(it)
+           //AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES) //
+            setDefaultNightMode(it)
         }
         //TODO call once
     }

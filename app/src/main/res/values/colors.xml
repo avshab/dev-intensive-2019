@@ -18,4 +18,6 @@
     <color name="color_rv_bg">#ECECEC</color>
     <color name="color_snack_bar">#1C0E42</color>
     <color name="color_archive_icon">#9CA9BA</color>
+    <color name="color_swipe">#1C0E42</color>
+    <color name="color_snackbar_text">#FFFFFF</color>
 </resources>

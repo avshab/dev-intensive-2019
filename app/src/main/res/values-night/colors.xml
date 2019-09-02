@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#2A1956</color>
-    <color name="color_primary_dark">#1C0E42</color>
+    <color name="color_primary">#272727</color>
+    <color name="color_primary_dark">#000000</color>
     <color name="color_primary_light">#473770</color>
-    <color name="color_accent">#FC4C4C</color>
+    <color name="color_accent">#2196F3</color>
     <color name="color_accent_night">#2196F3</color>
     <color name="color_accent_secondary">#BEAC32EE</color>
     <color name="color_gray">#9CA9BA</color>
@@ -18,4 +18,6 @@
     <color name="color_rv_bg">#1D1D1D</color>
     <color name="color_snack_bar">#ECECEC</color>
     <color name="color_archive_icon">#675F7F</color>
+    <color name="color_swipe">#2196F3</color>
+    <color name="color_snackbar_text">#121212</color>
 </resources>
