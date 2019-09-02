@@ -24,6 +24,10 @@
                 android:name=".ui.profile.ProfileActivity"
                 android:theme="@style/SplashTheme" />
         <activity android:name=".ui.group.GroupActivity" />
+
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -39,18 +39,18 @@ class GroupActivity : AppCompatActivity() {
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
         searchView.queryHint = "Введите имя пользователя"
-        searchView.setOnQueryTextListener((object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.handleSearchQuery(query)
                 return true
             }
 
-            override fun onQueryTextChange(query: String?): Boolean {
-                viewModel.handleSearchQuery(query)
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.handleSearchQuery(newText)
                 return true
             }
 
-        }))
+        })
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -121,6 +121,5 @@ class GroupActivity : AppCompatActivity() {
         }
 
         users.forEach{(_,v)->addChipToGroup(v)}
-
     }
 }

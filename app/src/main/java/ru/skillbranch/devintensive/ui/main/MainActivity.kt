@@ -62,7 +62,7 @@ class MainActivity: AppCompatActivity() {
                     "Вы точно хотите добавить ${it.title} в архив?",
                     Snackbar.LENGTH_LONG
                 )
-                snackbar.view.setBackgroundColor(resources.getColor(R.color.color_snack_bar, theme))
+                snackbar.view.background = resources.getDrawable(R.drawable.bg_snackbar, theme)
                 snackbar.setAction("Отмена", {
                     viewModel.restoreFromArhive(id)
                     snackbar.dismiss()

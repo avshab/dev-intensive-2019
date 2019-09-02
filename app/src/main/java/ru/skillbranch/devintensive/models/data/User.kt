@@ -46,7 +46,7 @@ data class User(
              isOnline: $isOnline
         """.trimIndent())
 
-    fun toUserItems() : UserItem {
+    fun toUserItem() : UserItem {
         val lastActivite = when{
             lastVisit == null -> "Еще ни разу не был"
             isOnline -> "online"

@@ -13,11 +13,14 @@
     <color name="color_divider_dark">#1F000000</color>
     <color name="color_divider_light">#1FFFFFFF</color>
     <color name="color_indicator">#581F99</color>
-    <color name="color_green">#4FD149</color>
+    <color name="color_activity_indicator">#2196F3</color>
 
     <color name="color_rv_bg">#1D1D1D</color>
-    <color name="color_snack_bar">#ECECEC</color>
+    <color name="color_snack_bar">#FFFFFF</color>
     <color name="color_archive_icon">#675F7F</color>
     <color name="color_swipe">#2196F3</color>
     <color name="color_snackbar_text">#121212</color>
+
+    <color name="color_title">#FFFFFF</color>
+    <color name="color_info">#9CA9BA</color>
 </resources>

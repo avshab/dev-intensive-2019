@@ -47,8 +47,8 @@ class ArchiveActivity : AppCompatActivity() {
             val id = it.id
             viewModel.restoreFromArchive(it.id)
 
-            val snackbar = Snackbar.make(rv_archive_list, "Восстановить чат с ${it.title} из архива?", Snackbar.LENGTH_LONG)
-            snackbar.view.setBackgroundColor(resources.getColor(R.color.color_snack_bar, theme))
+            val snackbar = Snackbar.make(rv_archive_list, "Восстановить чат с ${it.author} из архива?", Snackbar.LENGTH_LONG)
+            snackbar.view.background = resources.getDrawable(R.drawable.bg_snackbar, theme)
             snackbar.setAction("Отмена", {
                 viewModel.addToArchive(id)
                 snackbar.dismiss()

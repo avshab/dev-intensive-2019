@@ -132,7 +132,6 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit) {
 
           //  iv_avatar_group.setInitials(item.initials)
-            sv_indicator.visibility = if(item.isOnline) View.VISIBLE else View.GONE
 
             with(tv_date_group) {
                 visibility = if(item.lastMessageDate!=null) View.VISIBLE else View.GONE
@@ -163,16 +162,12 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
 
     inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView), LayoutContainer,  ItemTouchViewHolder {
         override fun onItemSelected() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onItemCleared() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit) {
-
-            
 
             with(tv_date_archive) {
                 visibility = if(item.messageCount>0) View.VISIBLE else View.GONE
