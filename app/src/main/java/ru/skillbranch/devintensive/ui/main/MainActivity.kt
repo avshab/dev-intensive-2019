@@ -64,7 +64,7 @@ class MainActivity: AppCompatActivity() {
                 )
                 snackbar.view.background = resources.getDrawable(R.drawable.bg_snackbar, theme)
                 snackbar.setAction("Отмена", {
-                    viewModel.restoreFromArhive(id)
+                    viewModel.restoreFromArchive(id)
                     snackbar.dismiss()
                 })
                 val textView: TextView = snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text)
