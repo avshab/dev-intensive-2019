@@ -29,27 +29,26 @@ fun Date.add(value: Int, units: TimeUnits): Date {
     return this
 }
 
-fun Date.humanizeDiff(date: Date = Date()): String {
-
-    val timeDiff = ((this.time - date.time)/ SECOND).toInt()
-
-    val start = if (timeDiff > 0) {"через " } else { "" }
-    val end = if (timeDiff < 0) {" назад" } else { "" }
-
-    val humanDiff = when(abs(timeDiff)){
-        in 0..1 -> "только что"
-        in 1..45 -> "несколько секунд"
-        in 45..75 -> "минуту"
-        in 75..45*60 -> TimeUnits.MINUTE.plural(abs(timeDiff)/60)
-        in 45*60..75*60 -> "час"
-        in 75*60..22*3600 -> TimeUnits.HOUR.plural(abs(timeDiff)/(60*60))
-        in 22*3600..26*3600 -> "день"
-        in 26*3600..360*24*3600 -> TimeUnits.DAY.plural(abs(timeDiff)/(60*60*24))
-        else -> { if(timeDiff > 0) {return "более чем через год"} else {return  "более года назад"}  }
+fun Date.humanizeDiff(date:Date = Date()) =
+    when (val diff = this.time - date.time) {
+        in -1 * SECOND .. 1 * SECOND ->  "только что"
+        in 1 * SECOND .. 45 * SECOND -> "несколько секунд вперед"
+        in -45 * SECOND .. -1 * SECOND -> "несколько секунд назад"
+        in 45 * SECOND .. 75 * SECOND -> "минуту вперед"
+        in -75 * SECOND .. -45 * SECOND -> "минуту назад"
+        in 75 * SECOND .. 45 * MINUTE -> "через ${TimeUnits.MINUTE.plural((diff /MINUTE).toInt())}"
+        in -45 * MINUTE .. -75 * SECOND -> "${TimeUnits.MINUTE.plural((diff /MINUTE).toInt())} назад"
+        in 45 * MINUTE .. 75 * MINUTE -> "час вперед"
+        in -75 * MINUTE .. -45 * MINUTE -> "час назад"
+        in 75 * MINUTE .. 22 * HOUR -> "через ${TimeUnits.HOUR.plural((diff /HOUR).toInt())}"
+        in -22 * HOUR .. -75 * MINUTE-> "${TimeUnits.HOUR.plural((diff /HOUR).toInt())} назад"
+        in 22 * HOUR .. 26 * HOUR -> "день вперед"
+        in -26 * HOUR .. -22 * HOUR -> "день назад"
+        in 26 * HOUR .. 360 * DAY -> "через ${TimeUnits.DAY.plural((diff / DAY).toInt())}"
+        in -360 * DAY .. -26 * HOUR -> "${TimeUnits.DAY.plural((diff / DAY).toInt())} назад"
+        in Long.MIN_VALUE .. -360 * DAY -> "более года назад"
+        else -> "более чем через год"
     }
-
-    return "$start$humanDiff$end"
-}
 
 
 enum class TimeUnits{
