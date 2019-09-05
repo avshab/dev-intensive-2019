@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.SearchEvent
 import android.view.View
 import android.widget.SearchView
@@ -55,13 +56,24 @@ class GroupActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return if(item?.itemId == android.R.id.home) {
+            finish()
+            overridePendingTransition(R.anim.idle, R.anim.bottom_down)
+            true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun initToolbar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.title = "Создание группы"
     }
 
     private fun initViews() {
-        usersAdapter = UserAdapter { viewModel.handleSelectedItems(it.id) }
+        usersAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         with(rv_user_list) {
             adapter = usersAdapter

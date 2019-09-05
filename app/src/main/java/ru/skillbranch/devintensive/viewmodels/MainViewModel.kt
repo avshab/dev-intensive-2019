@@ -12,7 +12,7 @@ class MainViewModel : ViewModel() {
     private val chatRepository = ChatRepository
     private val chats = Transformations.map(chatRepository.loadChats()){chats->
 
-        val item = chats.filter{ it.isArchived }.lastOrNull()?.toChatItem()
+        val item = chats.filter{ it.isArchived }.sortedBy { it.lastMessageDate()?.time }.lastOrNull()?.toChatItem()
         val list =  chats.filter{ !it.isArchived }
             .map{ it.toChatItem() }
             .sortedBy { it.id.toInt() }

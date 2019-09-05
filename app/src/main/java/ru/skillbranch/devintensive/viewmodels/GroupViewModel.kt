@@ -12,9 +12,7 @@ class GroupViewModel : ViewModel() {
     private val query = mutableLiveData("")
     private val groupRepository = GroupRepository
     private val userItems = mutableLiveData(loadUsers())
-    private val selectedItems = Transformations.map(userItems){users ->
-        users.filter { it.isSelected }
-    }
+    private val selectedItems = Transformations.map(userItems){users -> users.filter { it.isSelected }}
 
     fun getUsersData() : LiveData<List<UserItem>> {
         val result = MediatorLiveData<List<UserItem>>()
@@ -34,12 +32,11 @@ class GroupViewModel : ViewModel() {
 
     fun getSelectedData() : LiveData<List<UserItem>> = selectedItems
 
-    fun handleSelectedItems(userId: String) {
+    fun handleSelectedItem(userId: String) {
         userItems.value = userItems.value!!.map{
             if(it.id == userId) it.copy(isSelected = !it.isSelected)
             else it
         }
-
     }
 
     fun handleRemoveChip(userId: String) {
@@ -47,15 +44,13 @@ class GroupViewModel : ViewModel() {
             if(it.id == userId) it.copy(isSelected = false)
             else it
         }
-
     }
 
-    private fun loadUsers(): List<UserItem> = groupRepository.loadUsers().map { it.toUserItem() }
-
-    fun handleSearchQuery(text: String?) {
+    fun handleSearchQuery(text: String) {
         query.value = text
     }
 
+    private fun loadUsers(): List<UserItem> = groupRepository.loadUsers().map{ it.toUserItem() }
     fun handleCreateGroup() {
         groupRepository.createChat(selectedItems.value!!)
     }
