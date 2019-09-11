@@ -4,17 +4,19 @@ import ru.skillbranch.devintensive.models.data.User
 import ru.skillbranch.devintensive.models.UserView
 import ru.skillbranch.devintensive.utils.Utils
 
-fun User.toUserView() : UserView {
-
+fun User.toUserView():UserView{
     val nickName = Utils.transliteration("$firstName $lastName")
-    val initials = Utils.toInitials("", "")
-    val status = if (lastVisit == null) "не был" else if (isOnline) "онлайн" else lastVisit.humanizeDiff()
+    val initials = Utils.toInitials(firstName, lastName)
+    val status = if(lastVisit==null) "Еще ни разу небыл" else if (isOnline) "онлайн" else "Последний раз был ${lastVisit.humanizeDiff()}"
 
-    return UserView(
+    var result = UserView(
         id,
         fullName = "$firstName $lastName",
-        avatar = avatar,
         nickName = nickName,
         initials = initials,
-        status = status )
+        avatar = avatar,
+        status = status
+        )
+    return result
 }
+

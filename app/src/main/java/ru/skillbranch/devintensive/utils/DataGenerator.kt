@@ -446,7 +446,7 @@ object DataGenerator {
                     chat,
                     true,
                     user.lastVisit ?: Date(),
-                    (0..10).random() > 5,
+                    (0..10).random()>0,
                     randomTextPayload()
                 )
             )
@@ -485,7 +485,7 @@ object DataGenerator {
         val isNow = Random.nextBoolean()
         return when {
             isVisited -> {
-                val offset = (0..Short.MAX_VALUE).random()
+                val offset = (0..Short.MAX_VALUE).random().toLong()
                 Pair(Date().add(-offset, TimeUnits.MINUTE), false)
             }
 

@@ -5,18 +5,26 @@
     </declare-styleable>
 
     <attr name="colorAccentedSurface" format="reference"/>
+    <attr name="colorAntiAccent" format="reference"/>
     <attr name="colorDivider" format="reference"/>
     <attr name="colorIcon" format="reference"/>
+
+    <attr name="colorItemBackground" format="reference"/>
+    <attr name="colorItemBackside" format="reference"/>
+    <attr name="colorOnlineIndicator" format="reference"/>
+    <attr name="colorItemTextTitle" format="reference"/>
+    <attr name="colorItemTextMessage" format="reference"/>
+    <attr name="colorCounterBackground" format="reference"/>
+    <attr name="colorDoneIcon" format="reference"/>
+    <attr name="colorAppBar" format="reference"/>
+    <attr name="colorItemSelectedBackground" format="reference"/>
 
     <declare-styleable name="CircleImageView">
         <attr name="cv_borderColor" format="color"/>
         <attr name="cv_borderWidth" format="dimension"/>
-    </declare-styleable>
-
-
-    <declare-styleable name="AvatarImageView">
-        <attr name="aiv_borderColor" format="color"/>
-        <attr name="aiv_borderWidth" format="dimension"/>
+        <attr name="cv_text" format="string"/>
+        <attr name="cv_textSize" format="dimension"/>
+        <attr name="cv_textColor" format="color"/>
     </declare-styleable>
 
 </resources>

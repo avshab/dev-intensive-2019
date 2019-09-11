@@ -8,50 +8,61 @@ import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.repositories.GroupRepository
 
-class GroupViewModel : ViewModel() {
-    private val query = mutableLiveData("")
+class GroupViewModel: ViewModel() {
     private val groupRepository = GroupRepository
+    private val query = mutableLiveData("")
     private val userItems = mutableLiveData(loadUsers())
-    private val selectedItems = Transformations.map(userItems){users -> users.filter { it.isSelected }}
+    private val selectedItems = Transformations.map(userItems){users -> users.filter{it.isSelected}}
 
-    fun getUsersData() : LiveData<List<UserItem>> {
+    fun getUsersData():LiveData<List<UserItem>>{
         val result = MediatorLiveData<List<UserItem>>()
-
         val filterF = {
             val queryStr = query.value!!
             val users = userItems.value!!
 
-            result.value = if(queryStr.isEmpty()) users
-            else users.filter { it.fullName.contains(queryStr, true) }
+            result.value =  if (queryStr.isEmpty()) users
+                            else users.filter { it.fullName.contains(queryStr, true) }
         }
+        result.addSource(userItems){filterF.invoke()}
+        result.addSource(query){filterF.invoke()}
 
-        result.addSource(userItems) {filterF.invoke()}
-        result.addSource(query) {filterF.invoke()}
         return result
     }
 
-    fun getSelectedData() : LiveData<List<UserItem>> = selectedItems
+    fun getSelectedData():LiveData<List<UserItem>>{
+        return selectedItems
+    }
 
-    fun handleSelectedItem(userId: String) {
+    private fun offOrInverseSelection(userId: String, inverse:Boolean = true){
         userItems.value = userItems.value!!.map{
-            if(it.id == userId) it.copy(isSelected = !it.isSelected)
+            if (it.id == userId) it.copy(isSelected = (!it.isSelected && inverse))
             else it
         }
     }
+
+    fun handleSelectedItem(userId:String) {
+        offOrInverseSelection(userId, true)
+        //userItems.value = userItems.value!!.map{
+        //    if (it.id == userId) it.copy(isSelected = !it.isSelected)
+        //    else it
+        //}
+    }
+
+    private fun loadUsers():List<UserItem> = groupRepository.loadUsers().map { it.toUserItem() }
 
     fun handleRemoveChip(userId: String) {
-        userItems.value = userItems.value!!.map{
-            if(it.id == userId) it.copy(isSelected = false)
-            else it
-        }
+        offOrInverseSelection(userId, false)
+        //userItems.value = userItems.value!!.map{
+        //    if (it.id == userId) it.copy(isSelected = false)
+        //    else it
+        //}
     }
 
-    fun handleSearchQuery(text: String) {
-        query.value = text
+    fun handleSearchQuery(queryStr: String?) {
+        query.value = queryStr.orEmpty()
     }
 
-    private fun loadUsers(): List<UserItem> = groupRepository.loadUsers().map{ it.toUserItem() }
     fun handleCreateGroup() {
-        groupRepository.createChat(selectedItems.value!!)
+        groupRepository.createChat(selectedItems!!.value)
     }
 }

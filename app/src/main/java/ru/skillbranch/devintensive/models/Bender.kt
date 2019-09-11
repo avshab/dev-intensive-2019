@@ -1,8 +1,11 @@
 package ru.skillbranch.devintensive.models
 
-class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME){
+import androidx.core.text.isDigitsOnly
 
-    fun askQuestion(): String = when(question) {
+class Bender(var status:Status = Status.NORMAL, var question:Question = Question.NAME) {
+    private var phrase:String = ""
+
+    fun askQuestion():String = when (question) {
         Question.NAME -> Question.NAME.question
         Question.PROFESSION -> Question.PROFESSION.question
         Question.MATERIAL -> Question.MATERIAL.question
@@ -11,77 +14,81 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         Question.IDLE -> Question.IDLE.question
     }
 
-    fun listenAnswer(answer: String) : Pair<String, Triple<Int, Int, Int>> {
-        val(isValid, message) = question.validate(answer)
-        if(!isValid) return "$message\n${question.question}" to status.color
-
-        if (question == Question.IDLE) return "Отлично - ты справился\n${question.question}" to status.color
-
-        if(question.answers.contains(answer.toLowerCase())) {
-            question = question.nextQuestion()
-            return "Отлично - ты справился\n${question.question}" to status.color
-        }else {
-            status = status.nextStatus()
-            if (status != Status.NORMAL) {
-                return "Это неправильный ответ\n${question.question}" to status.color
+    fun listenAnswer(answer:String): Pair<String,Triple<Int,Int,Int>>{
+        phrase = "${question.validationError}\n"
+        if (question.validateAnswer(answer)) {
+            if (question.checkAnswer(answer)) {
+                phrase =  if (question.ordinal==Question.values().lastIndex) "" else "Отлично - ты справился\n"
+                question = question.nextQuestion()
             } else {
-                question = Question.NAME
-                return "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+                phrase = "Это неправильный ответ\n"
+                status = status.nextStatus()
+                if (status.ordinal==0) {
+                    phrase = "Это неправильный ответ. Давай все по новой\n"
+                    question = Question.NAME
+                }
             }
         }
+        return "$phrase${question.question}" to status.color
     }
 
-    enum class Status(val color: Triple<Int, Int, Int>) {
-        NORMAL(Triple(255, 255, 255)) ,
-        WARNING(Triple(255, 120, 0)),
-        DANGER(Triple(255, 60, 60)),
-        CRITICAL(Triple(255, 0, 0)) ;
+    enum class Status(val color:Triple<Int,Int,Int>){
+        NORMAL(Triple(255,255,255)),
+        WARNING(Triple(255,120,0)),
+        DANGER(Triple(255,60,60)),
+        CRITICAL(Triple(255,0,0));
 
-        fun nextStatus(): Status {
-            return if(this.ordinal < values().lastIndex) {
-                values()[this.ordinal + 1]
-            } else {
-                values()[0]
-            }
-        }
+        fun nextStatus():Status  =
+            if (this.ordinal< values().lastIndex)
+                values()[this.ordinal+1]
+            else values()[0]
+
+        fun previusStatus():Status  =
+            if (this.ordinal > 0)
+                values()[this.ordinal-1]
+            else values()[0]
     }
 
-    enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("бендер", "bender")) {
-            override fun nextQuestion(): Question = PROFESSION
-            override fun getErrorMessage() = "Имя должно начинаться с заглавной буквы"
-            override fun getValidator() = "^[A-Z](.*?)".toRegex()
+    enum class Question(val question:String, val answers:List<String>, val validationError:String = ""){
+        NAME("Как меня зовут?",
+            listOf("бендер", "bender"),
+            "Имя должно начинаться с заглавной буквы"){
+            override fun nextQuestion():Question = PROFESSION
+            override fun validateAnswer(answer:String):Boolean = (answer.length > 0 && answer[0].isUpperCase())
         },
-        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
-            override fun nextQuestion(): Question = MATERIAL
-            override fun getErrorMessage() = "Профессия должна начинаться со строчной буквы"
-            override fun getValidator() = "^[a-z](.*?)".toRegex()
+        PROFESSION("Назови мою профессию?",
+            listOf("сгибальщик", "bender"),
+            "Профессия должна начинаться со строчной буквы"){
+            override fun nextQuestion():Question = MATERIAL
+            override fun validateAnswer(answer:String):Boolean = (answer.length>0 && answer[0].isLowerCase())
         },
-        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
-            override fun nextQuestion(): Question = BDAY
-            override fun getErrorMessage() = "Материал не должен содержать цифр"
-            override fun getValidator() = "[A-Za-z]+".toRegex()
+        MATERIAL("Из чего я сделан?",
+            listOf("металл", "железо", "дерево", "iron", "metal", "wood"),
+            "Материал не должен содержать цифр"){
+            override fun nextQuestion():Question = BDAY
+            override fun validateAnswer(answer:String):Boolean = (!answer.contains("[0-9]".toRegex()))
         },
-        BDAY("Когда меня создали?", listOf("2993")) {
-            override fun nextQuestion(): Question = SERIAL
-            override fun getErrorMessage() = "Год моего рождения должен содержать только цифры"
-            override fun getValidator() = "[0-9]+".toRegex()
+        BDAY("Когда меня создали?",
+            listOf("2993"),
+            "Год моего рождения должен содержать только цифры"){
+            override fun nextQuestion():Question = SERIAL
+            override fun validateAnswer(answer:String):Boolean = (answer.isDigitsOnly())
         },
-        SERIAL("Мой серийный номер?", listOf("2716057")) {
-            override fun nextQuestion(): Question = IDLE
-            override fun getErrorMessage() = "Серийный номер содержит только цифры, и их 7"
-            override fun getValidator() = "^[0-9]*7".toRegex()
+        SERIAL("Мой серийный номер?",
+            listOf("2716057"),
+            "Серийный номер содержит только цифры, и их 7"){
+            override fun nextQuestion():Question = IDLE
+            override fun validateAnswer(answer:String):Boolean = (answer.isDigitsOnly() && answer.length==7)
         },
-        IDLE("На этом все, вопросов больше нет", listOf()) {
-            override fun nextQuestion(): Question = IDLE
-            override fun getErrorMessage() = ""
-            override fun getValidator() = "".toRegex()
+        IDLE("На этом все, вопросов больше нет",
+            listOf()){
+            override fun nextQuestion():Question = IDLE
+            override fun validateAnswer(answer:String):Boolean = true
+            override fun checkAnswer(answer:String):Boolean = true
         };
 
-        abstract fun nextQuestion() : Question
-        abstract fun getValidator() : Regex
-        abstract fun getErrorMessage() : String
-
-        fun validate(answer:String) : Pair<Boolean, String> = Pair(getValidator().matches(answer), getErrorMessage())
+        abstract fun nextQuestion():Question
+        abstract fun validateAnswer(answer:String):Boolean
+        open fun checkAnswer(answer:String):Boolean = this.answers.contains(answer.toLowerCase())
     }
 }

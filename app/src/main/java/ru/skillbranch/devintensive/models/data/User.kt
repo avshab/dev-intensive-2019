@@ -4,118 +4,115 @@ import ru.skillbranch.devintensive.extensions.humanizeDiff
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
-
-data class User(
+data class User (
     val id: String,
     var firstName: String?,
     var lastName: String?,
     var avatar: String?,
     var rating: Int = 0,
     var respect: Int = 0,
-    val lastVisit: Date? = Date(),
+    val lastVisit: Date? = null,
     val isOnline: Boolean = false
-) {
-
-    constructor(id: String, firstName: String?, lastName: String?) : this(
-        id  = id,
-        firstName = firstName,
-        lastName = lastName,
-        avatar = null
-    )
-
-    constructor(id: String) : this(id, "John", "Doe")
-
-    init {
-        println("It's  Alive!!!\n" +
-                "${if(lastName==="Doe") "His name id $firstName $lastName" else "And his name is $firstName $lastName"}\n" +
-                "${getIntro()}")
-    }
-
-    private fun getIntro() = """
-        $firstName $lastName
-    """.trimIndent()
-
-    fun printMe() = println("""
-             id: $id
-             firstName: $firstName
-             lastName: $lastName
-             avatar: $avatar
-             rating: $rating
-             respect: $respect
-             lastVisit: $lastVisit
-             isOnline: $isOnline
-        """.trimIndent())
-
-    fun toUserItem() : UserItem {
-        val lastActivite = when{
-            lastVisit == null -> "Еще ни разу не был"
-            isOnline -> "online"
-            else -> "Последний раз был ${lastVisit.humanizeDiff()}"
-        }
-
+){
+    fun toUserItem(): UserItem {
+        val lastActivity = when {
+                lastVisit == null -> "Еще ни разу не заходил"
+                isOnline -> "Онлайн"
+                else -> "Последний раз был ${lastVisit.humanizeDiff()}"
+            }
         return UserItem(
             id,
             "${firstName.orEmpty()} ${lastName.orEmpty()}",
-            Utils.toInitials(firstName, lastName),
+            Utils.toInitials(firstName, lastName).orEmpty(),
             avatar,
-            lastActivite,
+            lastActivity,
             false,
             isOnline
         )
     }
 
-    companion object Factory {
-        private var lastId: Int = -1
-        fun makeUser(fullName: String?) : User {
-            lastId++
+    constructor(id: String, firstName: String?, lastName: String?): this (
+        id = id,
+        firstName = firstName,
+        lastName = lastName,
+        avatar = null)
+    constructor(id: String) : this (id, "John", "Doe")
 
+    companion object Factory{
+        private var lastId = -1
+        fun makeUser(fullName:String?) : User {
             val (firstName, lastName) = Utils.parseFullName(fullName)
+
             return User(
-                id = "$lastId",
-                firstName = firstName,
-                lastName = lastName
+                "${takeNextId()}",
+                firstName,
+                lastName
             )
         }
+
+        fun takeNextId() = "${++lastId}"
     }
 
-    class Builder {
-        private var id: String = ""
-        private var firstName: String? = "John"
-        private var lastName: String? = "Doe"
+    class Builder() {
+        private var id: String? = null
+        private var firstName: String? = null
+        private var lastName: String? = null
         private var avatar: String? = null
         private var rating: Int = 0
         private var respect: Int = 0
         private var lastVisit: Date? = null
         private var isOnline: Boolean = false
 
-        fun id(value: String) = apply { id = value }
-
-        fun firstName(value: String?) = apply { firstName = value }
-
-        fun lastName(value: String?) = apply { lastName = value }
-
-        fun avatar(value: String?) = apply { avatar = value }
-
-        fun rating(value: Int) = apply { rating = value }
-
-        fun respect(value: Int) = apply { respect = value }
-
-        fun lastVisit(value: Date?) = apply { lastVisit = value }
-
-        fun isOnline(value: Boolean) = apply { isOnline = value }
-
-        fun build() : User? {
-            if (id.isEmpty()) return null
-            return User(
-                id,
-                firstName,
-                lastName,
-                avatar,
-                rating,
-                respect,
-                lastVisit,
-                isOnline
-            )
+        fun id(id: String): Builder {
+            this.id = id
+            return this
         }
+
+        fun firstName(firstName: String?): Builder {
+            this.firstName = firstName
+            return this
+        }
+
+        fun lastName(lastName: String?): Builder {
+            this.lastName = lastName
+            return this
+        }
+
+        fun avatar(avatar: String?): Builder {
+            this.avatar = avatar
+            return this
+        }
+
+        fun rating(rating: Int): Builder {
+            this.rating = rating
+            return this
+        }
+
+        fun respect(respect: Int): Builder {
+            this.respect = respect
+            return this
+        }
+
+        fun lastVisit(lastVisit: Date?): Builder {
+            this.lastVisit = lastVisit
+            return this
+        }
+
+        fun isOnline(isOnline: Boolean): Builder {
+            this.isOnline = isOnline
+            return this
+        }
+
+        fun build(): User =
+            User(
+                id = this.id ?: takeNextId(),
+                firstName = this.firstName,
+                lastName = this.lastName,
+                avatar = this.avatar,
+                rating = this.rating,
+                respect = this.respect,
+                lastVisit = this.lastVisit,
+                isOnline = this.isOnline
+            )
     }
 }

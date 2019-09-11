@@ -2,84 +2,77 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/btn_archive"
-        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/item_size"
         android:padding="@dimen/spacing_normal_16"
-        android:background="@color/color_rv_bg" >
-
-    <ru.skillbranch.devintensive.ui.custom.AvatarImageView
+        android:background="?attr/colorItemBackground">
+    <ImageView
             android:id="@+id/iv_avatar_archive"
             android:layout_width="@dimen/avatar_item_size"
             android:layout_height="@dimen/avatar_item_size"
-            android:layout_marginRight="@dimen/spacing_normal_16"
+            android:layout_alignParentStart="true"
+            app:srcCompat="@drawable/ic_arc"
+            android:padding="@dimen/spacing_small_8"
+            android:background="@drawable/avatar_archive_background"
+            android:layout_marginEnd="@dimen/spacing_normal_16"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/bg_archive_item"
-            android:src="@drawable/ic_archive_black_24dp"
-            android:padding="@dimen/spacing_small_8"/>
-
+            android:contentDescription="@string/archive_icon_description" />
     <TextView
-            android:id="@+id/tv_title_archive"
+        android:id="@+id/tv_title_archive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/archive_title"
-            android:text="@string/archive_title"
-            android:textColor="@color/color_title"
-            android:fontFamily="@font/roboto_medium"
+            android:text = "@string/archive_chat_title"
+            android:textColor="?attr/colorItemTextTitle"
+            android:fontFamily="sans-serif-medium"
             android:textSize="14sp"
-            android:layout_toRightOf="@id/iv_avatar_archive"
-            android:layout_toLeftOf="@id/tv_date_archive"
+            android:layout_toEndOf="@id/iv_avatar_archive"
+            android:layout_toStartOf="@id/tv_date_archive"
             android:layout_marginRight="@dimen/spacing_normal_16"
-            android:maxLines="1" />
-
+            android:maxLines="1"/>
     <TextView
             android:id="@+id/tv_message_author_archive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="John Doe"
-            android:textColor="@color/color_title"
+            tools:text = "John_Doe"
+            android:textColor="?attr/colorItemTextTitle"
             android:textSize="14sp"
             android:layout_toRightOf="@id/iv_avatar_archive"
             android:layout_marginRight="@dimen/spacing_tiny_4"
-            android:layout_below="@+id/tv_title_archive"
-            android:fontFamily="@font/roboto"/>
-
+            android:layout_below="@id/tv_title_archive"/>
     <TextView
             android:id="@+id/tv_message_archive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Когда я проходил интенсив, я мало спал"
-            android:textColor="@color/color_info"
+            android:text = "Когда я проходил интенсив"
+            android:textColor="?attr/colorItemTextMessage"
             android:textSize="14sp"
             android:layout_toRightOf="@id/tv_message_author_archive"
             android:layout_toLeftOf="@id/tv_counter_archive"
             android:layout_marginRight="@dimen/spacing_normal_16"
-            android:layout_below="@+id/tv_title_archive"
-            android:fontFamily="@font/roboto"/>
-
+            android:layout_below="@id/tv_title_archive"
+            />
     <TextView
             android:id="@+id/tv_date_archive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/color_info"
-            tools:text="18:00"
-            android:fontFamily="@font/roboto"/>
+            android:textColor="?attr/colorItemTextMessage"
+            tools:text="10:03"/>
     <TextView
             android:id="@+id/tv_counter_archive"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/counter_size"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_counter"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
             android:minWidth="@dimen/counter_size"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="#FFFFFF"
             android:textSize="10sp"
-            tools:text="11"  />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_counter"
+            tools:text="11"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"/>
 </RelativeLayout>

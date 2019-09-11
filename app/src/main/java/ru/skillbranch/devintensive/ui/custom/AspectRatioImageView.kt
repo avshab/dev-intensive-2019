@@ -6,28 +6,26 @@ import android.widget.ImageView
 import ru.skillbranch.devintensive.R
 
 class AspectRatioImageView @JvmOverloads constructor(
-    context:Context,
+    context: Context,
     attrs:AttributeSet? = null,
-    defStyleArttr:Int = 0
-) : ImageView(context, attrs, defStyleArttr) {
-    companion object {
-        private const val DEFAULT_ASPECT_RATION = 1.78f
+    defStyleAttr:Int = 0
+    ): ImageView(context, attrs, defStyleAttr) {
+    companion object{
+        private const val DEFAULT_ASPECT_RATIO = 1.78f
     }
+    private var aspectRatio = DEFAULT_ASPECT_RATIO
 
-    private var aspectRation = DEFAULT_ASPECT_RATION
-
-    init{
-        if(attrs!=null){
+    init {
+        if (attrs!=null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.AspectRatioImageView)
-            aspectRation = a.getFloat(R.styleable.AspectRatioImageView_aspectRatio, DEFAULT_ASPECT_RATION)
+            aspectRatio = a.getFloat(R.styleable.AspectRatioImageView_aspectRatio, DEFAULT_ASPECT_RATIO)
             a.recycle()
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val newHeight = (measuredWidth/aspectRation).toInt()
-        setMeasuredDimension(measuredWidth, newHeight)
-
+        val newHeigt = (measuredWidth/aspectRatio).toInt()
+        setMeasuredDimension(measuredWidth,newHeigt)
     }
 }

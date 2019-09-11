@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
+
         <item name="colorAccent">@color/color_accent_night</item>
+        <item name="colorAntiAccent">@color/color_accent</item>
+
+        <item name="colorItemBackground">@color/color_item_background_night</item>
+        <item name="colorOnlineIndicator">@color/color_accent_night</item>
+        <item name="colorItemTextTitle">@color/color_item_title_night</item>
+        <item name="colorItemTextMessage">@color/color_item_message_night</item>
+        <item name="colorCounterBackground">@color/color_indicator_night</item>
+        <item name="colorDoneIcon">@color/color_primary_dark_night</item>
+        <item name="colorAppBar">@color/color_primary_dark</item>
+        <item name="colorItemBackside">@color/color_primary_dark_night</item>
+        <item name="colorItemSelectedBackground">@color/color_divider_light</item>
 
         <item name="colorAccentedSurface">@color/color_divider_light</item>
         <item name="colorIcon">@android:color/white</item>
@@ -14,4 +26,3 @@
 
     </style>
 </resources>
-

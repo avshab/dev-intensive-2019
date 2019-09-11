@@ -9,51 +9,49 @@ import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.repositories.PreferencesRepository
 import ru.skillbranch.devintensive.utils.Utils
 
-
 class ProfileViewModel : ViewModel() {
-    private val repository : PreferencesRepository = PreferencesRepository
+    private val repository = PreferencesRepository
     private val profileData = MutableLiveData<Profile>()
     private val appTheme = MutableLiveData<Int>()
-    private val IsRepositoryError = MutableLiveData<Boolean>()
+    private val isRepoError = MutableLiveData<Boolean>()
 
     init {
-        Log.d("M_ProfileViewModel", "init view model")
+        Log.d("M_ProfileViewModel","view_model is initialised")
         profileData.value = repository.getProfile()
         appTheme.value = repository.getAppTheme()
-        IsRepositoryError.value = false
+        onAdressRepositoryChanged(repository.getProfile().repository)
     }
 
     override fun onCleared() {
         super.onCleared()
-        Log.d("M_ProfileViewModel", "view model cleared")
+        Log.d("M_ProfileViewModel","view_model is cleared")
     }
 
     fun getProfileData():LiveData<Profile> = profileData
 
-    fun getTheme():LiveData<Int> = appTheme
-
-    fun getIsRepositoryError():LiveData<Boolean> = IsRepositoryError
-
-    fun saveProfileData(profile: Profile) {
-        val otherProfile = if (IsRepositoryError.value!!)
-            profile.copy(repository = "")
-        else
-            profile
-        repository.saveProfile(otherProfile)
-        profileData.value = otherProfile
+    fun saveProfileData(profile: Profile){
+        if(isRepoError.value?:false) profile.repository = ""
+        isRepoError.value = true
+        repository.saveProfile(profile)
+        profileData.value = profile
     }
 
+    fun getTheme():LiveData<Int> = appTheme
+
+    fun isRepoError():LiveData<Boolean> = isRepoError
+
     fun switchTheme() {
-        if(appTheme.value == AppCompatDelegate.MODE_NIGHT_YES){
+        if (appTheme.value == AppCompatDelegate.MODE_NIGHT_YES) {
             appTheme.value = AppCompatDelegate.MODE_NIGHT_NO
-        }else{
+        } else {
             appTheme.value = AppCompatDelegate.MODE_NIGHT_YES
         }
-
         repository.saveAppTheme(appTheme.value!!)
     }
 
-    fun onRepositoryTextChanged(s: String){
-        IsRepositoryError.value = !Utils.checkGit(s)
+    fun onAdressRepositoryChanged(repoValue: String) {
+        isRepoError.value = !(Utils.mathGitHubAccount(repoValue)||repoValue.isEmpty())
     }
+
+
 }

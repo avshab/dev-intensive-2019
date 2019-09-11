@@ -1,10 +1,13 @@
 package ru.skillbranch.devintensive.models
 
-import ru.skillbranch.devintensive.extensions.humanizeDiff
 import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.data.User
+import ru.skillbranch.devintensive.models.data.UserItem
 import java.util.*
 
+/**
+ * Created by Makweb on 24.06.2019.
+ */
 class ImageMessage (
     id:String,
     from: User,

@@ -3,29 +3,25 @@ package ru.skillbranch.devintensive
 import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import ru.skillbranch.devintensive.repositories.PreferencesRepository
 
 class App : Application() {
-    companion object{
-        private var instance:App? = null
+    companion object {
+        private var instanse:App? = null
 
-        fun applicationContext() : Context{
-            return instance!!.applicationContext
+        fun applicationContext(): Context {
+            return instanse!!.applicationContext
         }
     }
 
-    init{
-        instance = this
+    init {
+        instanse = this
     }
 
     override fun onCreate() {
         super.onCreate()
-
         PreferencesRepository.getAppTheme().also {
-           //setDefaultNightMode(MODE_NIGHT_YES)
-            setDefaultNightMode(it)
+            AppCompatDelegate.setDefaultNightMode(it)
         }
     }
 }
