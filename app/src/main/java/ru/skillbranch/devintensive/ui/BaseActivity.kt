@@ -9,6 +9,6 @@ abstract class BaseActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_AUTO)
+        delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }
